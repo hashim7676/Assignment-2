@@ -1,0 +1,59 @@
+name: QA Testing Workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Project
+        run: |
+          # Your build commands here
+          # For example, if you're using a Node.js project:
+          npm install
+          npm run build
+
+      - name: Run Unit Tests
+        run: |
+          # Your unit testing commands here
+          # For example, if you're using Jest:
+          npm test
+
+      - name: Code Analysis/Linting
+        run: |
+          # Your linting commands here
+          # For example, if you're using ESLint:
+          npm run lint
+
+      - name: Deploy to AWS Testing Server
+        run: |
+          # Your deployment commands here
+          # This could include copying files to a server, restarting services, etc.
+          # Make sure to use GitHub Secrets for sensitive information like AWS credentials.
+
+      - name: Send Email Notification on Failure
+        if: failure()
+        run: |
+          # Your email notification script for failure
+          # For example, using mail command:
+          sudo apt-get install -y mailutils
+          subject="GitHub Actions QA Workflow Failed: $GITHUB_REPOSITORY"
+          body="The GitHub Actions QA Testing workflow failed for the pull request ${{ github.event.number }}. Please check the workflow logs for details."
+          echo0 "$body" | mail -s "$subject" hashimm7676@gmail.com
+      - name: Send Email Notification on Success
+        if: success()
+        run: |
+          # Your email notification script for success
+          # For example, using mail command:
+          sudo apt-get install -y mailutils
+          subject="GitHub Actions QA Workflow Succeeded: $GITHUB_REPOSITORY"
+          body="The GitHub Actions QA Testing workflow succeeded for the pull request ${{ github.event.number }}. The changes are ready for testing on the AWS testing server."
+          echo "$body" | mail -s "$subject"  hashimm7676@gmail.com
+

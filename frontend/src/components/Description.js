@@ -11,9 +11,9 @@ import { faEdit as EditIcon } from '@fortawesome/free-regular-svg-icons';
 import { faDownload as DownloadIcon } from '@fortawesome/free-solid-svg-icons';
 import { faShareSquare as ShareSquareIcon } from '@fortawesome/free-regular-svg-icons';
 import { faLaptopCode as LaptopCodeIcon } from '@fortawesome/free-solid-svg-icons';
+import DescriptionItem from './DescriptionItem';
 library.add(EditIcon, DownloadIcon, ShareSquareIcon, LaptopCodeIcon);
 
-import DescriptionItem from './DescriptionItem';
 
 const Description = () => {
   const theme = useTheme();
