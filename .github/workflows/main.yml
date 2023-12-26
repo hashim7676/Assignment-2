@@ -1,0 +1,29 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          dockerfile: backend/Dockerfile
+
+      - name: Build and run tests
+        run: |
+          docker-compose -f docker-compose.yaml build
+          docker-compose -f docker-compose.yaml run --rm your-test-service
+
+      - name: Deploy to AWS EC2 Staging Server
+        run: |
+          50.17.64.246 and /home/ec2-user/devops/Assignment-2/mykeypair.pem
+          ssh -i  /home/ec2-user/devops/Assignment-2/mykeypair.pem ec2-user@ec2-50-17-64-246.compute-1.amazonaws.com 'bash -s' < deploy_script.sh 
